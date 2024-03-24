@@ -10,9 +10,9 @@ function showMessageModal(type, text) {
 }
 
 $(document).ready(function(){
-  $(".sidebar-toggle").click(function(){
-    $("#sidebar").toggleClass("show");
-  });
+  // $(".sidebar-toggle").click(function(){
+  //   $("#sidebar").toggleClass("show");
+  // });
 
   $(".open-modal").click(function(){
     let id = $(this).attr("data-id");
