@@ -1,0 +1,45 @@
+div.dt-container div.dt-layout-row:first-child{
+    display: flex !important;
+     align-items: center;
+     justify-content: space-between;
+}
+
+div.dt-container div.dt-layout-row:first-child div.dt-layout-cell.dt-end{
+    text-align: left !important;
+}
+
+.dt-length{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 5px;
+}
+.dt-search{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+/* table head */
+.dt-scroll-headInner, .dt-scroll-headInner > table{
+    width: 100% !important;
+}
+table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+    text-align: left !important;
+}
+/* table content */
+.dataTable{
+    width: 100% !important;
+}
+/* action buttons */
+.action-button:hover{
+    background-color: var(--activeColor);
+}
+.action-button img{
+    width: 20px;
+    height: 20px;
+}
+/* pagination */
+div.dt-container .dt-paging .dt-paging-button.current, div.dt-container .dt-paging .dt-paging-button.current:hover{
+    background: var(--activeColor) !important;
+    color: var(--whiteColor) !important;
+    border: none !important;
+}

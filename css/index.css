@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "black";
+    src: url("./font/Roboto-Black.ttf");
+}
+@font-face {
+    font-family: "bold";
+    src: url("./font/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: "light";
+    src: url("./font/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: "regular";
+    src: url("./font/Roboto-Regular.ttf");
+}
+
+:root{
+    --mainColor: #C54279;
+    --secondaryColor: #104F96;
+    --whiteColor: #ffffff;
+    --successColor: #71dd37;
+    --activeColor: #24a3dd;
+    --infoColor: #03c3ec;
+    --warningColor: #ffab00;
+    --tableHeadColor: #566a7f;
+    --dangerColor: #dc3545;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    width: 100%;
+    overflow-x: hidden;
+    font-family: "light";
+    margin: auto;
+    font-size: 16px;
+}
+h1, h2, h3, h4, h5, h6{
+    font-family: bold;
+}
+h1{
+    font-size: 28px;
+}
+h2{
+    font-size: 25px;
+}
+h3{
+    font-size: 22px;
+}
+h4{
+    font: 20px;
+}
+h5{
+font-size: 18px;
+}
+h6{
+    font-size: 16px;
+}
+button{
+    border: none;
+    outline: none;
+    padding: 10px;
+    width: fit-content;
+    color: var(--whiteColor);
+    background-color: transparent;
+    font-family: "regular";
+    border-radius: 10px;
+    cursor: pointer;
+}
+table{
+    width: 100%;
+}
+thead{
+    border-bottom: 1px solid black;
+}
+th{
+    text-align: left;
+}
+th, td{
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    color: var(--tableHeadColor);
+}
+
