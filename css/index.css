@@ -86,3 +86,7 @@ th, td{
     color: var(--tableHeadColor);
 }
 
+form button{
+    min-width: 80px;
+}
+

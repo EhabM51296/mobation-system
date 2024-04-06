@@ -6,7 +6,9 @@ function sessionChecker()
 
 }
 function connectDB(){
+$pass = 'ah%&8.--RU$'."n";
     try{
+        // $connection = mysqli_connect('localhost', 'mobatxik_generaluser', $pass, 'mobatxik_system');
         $connection = mysqli_connect("localhost","root","","mobation_system");
         return $connection;
       }

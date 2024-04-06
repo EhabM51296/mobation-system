@@ -1,13 +1,8 @@
 <?php
-session_start();
-$user = array(
-    "id" => 1,
-    "accid" => 1,
-    "name" => "Account 1",
-    "email" => "ehabmaatouk@outlook.com",
-);
-$_SESSION['user'] = $user;
 require_once './constants/constants.php';
+require(BACKEND_PATH."/auth/auth.php");
+$res = login("hosam@mobation.com", "123456Ehab!");
+if(!$res) die("failed to login");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,12 +29,6 @@ require_once './constants/constants.php';
             </div>
         </div>
     </div>
-    <!-- <form id="testForm">
-        <input type="text" placeholder="test input" class="form-input validate-input" data-validate="required" id="test-input"
-            data-required="required" name="testing-name" />
-        <div class="validation-message" id="validation-message-test-input"></div>
-        <button type="submit" class="bg-danger">test form</button>
-    </form> -->
 </body>
 <script src="<?php echo SCRIPT_PATH; ?>/jquery.min.js"></script>
 <script src="<?php echo SCRIPT_PATH; ?>/script.js"></script>

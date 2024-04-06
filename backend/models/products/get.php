@@ -30,6 +30,8 @@ if (isset($_GET['datakey']) && sessionChecker()) {
    $actioncol = '<div>
    <button class="action-button action-edit bg-warning" data-obj = "products"><img src="./assets/icons/edit.svg" /></button>
    <button class="action-button action-delete bg-danger" data-obj = "products"><img src="./assets/icons/delete.svg" /></button>
+   <button class="action-button action-edit-batch bg-info" data-id="edit-batch-modal" data-obj = "products"><img src="./assets/icons/oldBatch.svg" /></button>
+   <button class="action-button action-add-batch bg-info open-modal" data-id="add-batch-modal" data-obj = "products" data-hiddenid><img src="./assets/icons/batch.svg" /></button>
 </div>';
 
   

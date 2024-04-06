@@ -1,3 +1,7 @@
+/* displays */
+.d-none{
+    display: none;
+}
 .flex{
     display: flex;
 }
@@ -7,6 +11,7 @@
 .flex-wrap{
     flex-wrap: wrap;
 }
+/* element placement */
 .items-center{
     align-items: center;
 }
@@ -19,6 +24,12 @@
 .justify-end{
     justify-content: flex-end;
 }
+.grid-2{
+    display: grid;
+    grid-template-columns: calc(50% - 25px) calc(50% - 25px);
+    gap: 50px;
+}
+/* spacing */
 .gap-5{
     gap: 5px;
 }
@@ -37,19 +48,106 @@
 .gap-30{
     gap: 30px;
 }
-.d-none{
-    display: none;
+.gap-35{
+    gap: 35px;
 }
-w-full{
+.gap-40{
+    gap: 40px;
+}
+/* width and height */
+.w-full{
     width: 100%;
 }
-h-full{
+.h-full{
     height: 100%;
 }
+/* max width and max height */
+.w-max-200px{
+    max-width: 200px;
+}
+/* positions */
 .relative{
     position: relative;
 }
+/* text colors */
+.text-success{
+    color: var(--successColor);
+}
+.text-active{
+    color: var(--activeColor);
+}
+.text-info{
+    color: var(--infoColor);
+}
+.text-warning{
+    color: var(--warningColor);
+}
+.text-danger{
+    color: var(--dangerColor);
+}
+/* bg colors */
+.bg-active{
+    background-color: var(--activeColor);
+}
+.bg-info{
+    background-color: var(--infoColor);
+}
+.bg-warning{
+    background-color: var(--warningColor);
+}
+.bg-danger{
+    background-color: var(--dangerColor);
+}
+/* text sizes */
+.text-xs{
+    font-size: 12px;
+}
+.text-sm{
+    font-size: 14px;
+}
+.text-md{
+    font-size: 18px;
+}
+.text-lg{
+    font-size: 20px;
+}
+/* Form style */
+.form-input, .dt-input{
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid var(--tableHeadColor);
+    transition: all 0.5s;
+}
 
+.form-input:focus, .dt-input:focus, .filter-input:focus{
+    border: 1px solid var(--activeColor) !important;
+}
+
+
+.filter-input{
+    max-width: 100px;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    transition: all 0.5s;
+}
+.validate-input.invalid{
+    border: 1px solid var(--dangerColor);
+}
+
+.validate-input.valid{
+    border: 1px solid var(--successColor);
+}
+
+.validation-message{
+    font-size: 14px;
+    color: var(--dangerColor);
+    font-family: light;
+    margin-top: 5px;
+}
 /* others */
 .page{
     display: none;
@@ -122,82 +220,36 @@ h-full{
     box-shadow: 0 0 10px 0;
     overflow-y: auto;
 }
+.form-box.full-box{
+    width: 90%;
+    max-width: 90%;
+    height: 90%;
+}
 .col-2-container > div{
     width: 49%;
     margin-top: 10px;
 }
-.text-success{
-    color: var(--successColor);
+.show-hide-password{
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    min-width: fit-content !important;
 }
-.text-active{
-    color: var(--activeColor);
+input[type="password"] ~ .show-hide-password .hide-password{
+    display: block;
 }
-.text-info{
-    color: var(--infoColor);
+input[type="password"] ~ .show-hide-password .show-password{
+    display: none;
 }
-.text-warning{
-    color: var(--warningColor);
+input[type="text"] ~ .show-hide-password .hide-password{
+    display: none;
 }
-.text-danger{
-    color: var(--dangerColor);
+input[type="text"] ~ .show-hide-password .show-password{
+    display: block;
 }
-.bg-active{
-    background-color: var(--activeColor);
-}
-.bg-info{
-    background-color: var(--infoColor);
-}
-.bg-warning{
-    background-color: var(--warningColor);
-}
-.bg-danger{
-    background-color: var(--dangerColor);
-}
-.text-xs{
-    font-size: 12px;
-}
-.text-sm{
-    font-size: 14px;
-}
-.text-md{
-    font-size: 18px;
-}
-.text-lg{
-    font-size: 20px;
-}
-/* Form style */
-.form-input, .dt-input{
-    width: 100%;
-    outline: none;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid var(--tableHeadColor);
-    transition: all 0.5s;
-}
-
-.form-input:focus, .dt-input:focus, .filter-input:focus{
-    border: 1px solid var(--activeColor) !important;
+.show-hide-password img{
+    width: 20px;
 }
 
 
-.filter-input{
-    max-width: 100px;
-    outline: none;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    transition: all 0.5s;
-}
-.validate-input.invalid{
-    border: 1px solid var(--dangerColor);
-}
-
-.validate-input.valid{
-    border: 1px solid var(--successColor);
-}
-
-.validation-message{
-    font-size: 14px;
-    color: var(--dangerColor);
-    font-family: light;
-}

@@ -3,13 +3,21 @@ $(document).ready(function () {
     required: function checkRequired(val) {
       return val.trim() !== "";
     },
+    requiredAllowedSpace: function checkRequired(val) {
+      return val !== "";
+    },
     email: function checkEmail(val) {
       let formula = /\w+([-+.'][^\s]+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
       return formula.test(val);
     },
     password: function password(val) {
-      return val.length > 5;
+      let formula = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+      return formula.test(val);
     },
+    positiveInteger: function positiveInteger(val) {
+      let formula = /^[0-9]\d*$/;
+      return formula.test(val);
+    }
   };
   $.fn.hasAttr = function (name) {
     return this.attr(name) !== undefined;
@@ -60,7 +68,7 @@ $(document).ready(function () {
     }
   );
 
-  $("form").submit(function (e) {
+  $(document).on("submit", "form", function (e) {
     e.preventDefault();
     let formid = $(this).attr("id");
     $(`#${formid} button[type=submit]`).attr("disabled", true);
@@ -93,18 +101,23 @@ $(document).ready(function () {
         contentType: false,
         cache: false,
         url: url,
-        success: function (data) {
-          console.log(data);
+        success: function (res) {
+          console.log(res);
           var d = "";
           try {
-            d = JSON.parse(data);
+            d = JSON.parse(res);
             let status = d.status;
             if (status === 1) {
               showMessageModal("success");
               var dataTable = $(`#${object}-table`).DataTable();
               dataTable.ajax.reload();
               if (!isNotAdd) $(`#${formid}`)[0].reset();
-            } else if (status === 0) {
+            }
+            else if (status === 10) {
+              showMessageModal("success");
+              updateProfile(d.data);
+            }  
+            else if (status === 0) {
               showMessageModal("failed", d.data);
             } else {
               showMessageModal("error");

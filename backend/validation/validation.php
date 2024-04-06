@@ -2,9 +2,23 @@
 function isRequired($value) {
     return trim($value) !== "";
 }
+
+function isRequiredAllowSpaces($value) {
+    return $value !== "";
+}
 function isValidEmail($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function isValidPassword($value) {
+    $formula = '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/';
+    return preg_match($formula, $value);
+}
+
+function positiveInteger($value) {
+    $formula = '/^[0-9]\d*$/';
+    return preg_match($formula, $value);
 }
 
 function returnJsonObject($status, $data)

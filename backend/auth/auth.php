@@ -1,5 +1,5 @@
 <?php
-require "../connect.php";
+require (BACKEND_PATH."/connect.php");
 function login($email, $password)
 {
             $connection = connectDB();
@@ -13,13 +13,14 @@ function login($email, $password)
             {
                 $user = array(
                     "id" => $row['id'],
+                    "accid" => $row["id"],
                     "name" => $row['name'],
                     "email" => $row['email'],
                 );
                 $_SESSION['user'] = $user;
                 $loggedin = true;
             }
-            close_connection($connection);
+            close_connection($connection, $stmt, false);
             return $loggedin;
 }
 ?>
