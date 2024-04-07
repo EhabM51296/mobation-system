@@ -252,4 +252,59 @@ input[type="text"] ~ .show-hide-password .show-password{
     width: 20px;
 }
 
+.select-dropdown{
+    position: relative;
+    width: fit-content;
+    z-index: 9999;
+}
+.dropdown-items{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    background-color: white;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    z-index: 9999;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 black;
+    display: none;
+}
+.select-dropdown-control{
+    min-width: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid var(--tableHeadColor);
+    transition: all 0.5s;
+    background-color: transparent;
+    color: black;
+}
+.dropdown-item{
+    width: 100%;
+    background-color: transparent;
+    color: black;
+    text-align: left;
+    padding: 0;
+    font-size: 14px;
+    padding: 2px;
+    
+
+}
+.dropdown-item:hover{
+    background-color: var(--infoColor);
+    color: var(--whiteColor);
+}
+
+.dropdown-item.selected{
+    background-color: var(--activeColor);
+    background-color: var(--whiteColor);
+}
+
 

@@ -17,6 +17,10 @@ $(document).ready(function () {
     positiveInteger: function positiveInteger(val) {
       let formula = /^[0-9]\d*$/;
       return formula.test(val);
+    },
+    positiveNumber: function positiveNumber(val) {
+      let formula = /^[0-9]\d*(\.\d+)?$/;
+      return formula.test(val);
     }
   };
   $.fn.hasAttr = function (name) {

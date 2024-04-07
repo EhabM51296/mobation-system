@@ -21,6 +21,12 @@ function positiveInteger($value) {
     return preg_match($formula, $value);
 }
 
+function positiveNumber($value) {
+    $formula = '/^[0-9]+(?:\.[0-9]+)?$/';
+    return preg_match($formula, $value);
+}
+
+
 function returnJsonObject($status, $data)
 {
     return json_encode(

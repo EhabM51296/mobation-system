@@ -26,6 +26,18 @@ if(!$res) die("failed to login");
             <div class="content">
                 <?php require(COMPONENTS_PATH."/header.php"); ?>
                 <?php require(COMPONENTS_PATH."/pages.php"); ?>
+                <div class="select-dropdown">
+                    <button type="text" class="select-dropdown-control">
+                        <span>Clients</span>
+                    <img src="<?php echo ICONS_PATH; ?>/dropdownArrow.svg" width="12px" />
+                    </button>
+                    <input type="hidden" value="" class="dropdown-selected-values" />
+                    <div class="dropdown-items">
+                        <button class="dropdown-item" data-value="1">Item 1</button>
+                        <button class="dropdown-item" data-value="2">Item 2</button>
+                        <button class="dropdown-item" data-value="3">Item 3</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

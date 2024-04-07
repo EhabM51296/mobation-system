@@ -62,21 +62,28 @@ $(document).ready(function(){
                       action="./backend/models/products/products.php">
                       <div class="w-full flex flex-column">
                           <div>
-                              <input type="text" placeholder="${v.name}" id="edit-batch-name-${k}" name="name"
+                              <input type="text" placeholder="Name: ${v.name}" id="edit-batch-name-${k}" name="name"
                                   class="form-input validate-input data-to-send" data-validate="required"
                                   data-required="Name is required" value='${v.name}' />
                               <div class="validation-message" id="validation-message-edit-batch-name-${k}">
                               </div>
                           </div>
                           <div>
-                              <input type="number" placeholder="${v.count}" id="edit-batch-count-${k}" name="count"
+                              <input type="number" placeholder="Count: ${v.count}" id="edit-batch-count-${k}" name="count"
                                   class="form-input validate-input data-to-send" data-validate="positiveInteger"
                                   data-positiveInteger="Count must be a positive integer" value='${v.count}' />
                               <div class="validation-message" id="validation-message-edit-batch-count-${k}">
                               </div>
                           </div>
                           <div>
-                              <input type="date" placeholder="${v.expiry_date}" id="edit-batch-expiryDate-${k}"
+                              <input type="number" placeholder="Price: ${v.price}" id="edit-batch-price-${k}" name="price"
+                                        class="form-input validate-input data-to-send" data-validate="positiveNumber"
+                                        data-positiveNumber="Price must be a positive number" value="${v.price}" step="0.1"/>
+                              <div class="validation-message" id="validation-message-edit-batch-price-${k}">
+                              </div>
+                              </div>
+                          <div>
+                              <input type="date" placeholder="Expiry date: ${v.expiry_date}" id="edit-batch-expiryDate-${k}"
                                   name="expiry_date" class="form-input validate-input data-to-send"
                                   data-validate="required" data-required="Expiry date is required" value='${v.expiry_date}'/>
                               <div class="validation-message" id="validation-message-edit-batch-expiryDate-${k}">

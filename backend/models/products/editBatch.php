@@ -10,6 +10,7 @@ if(isset($_POST['datakey']) && $_POST['datakey'] == "edit-batch" && isset($_POST
     $validations = array(
         isRequired($_POST['name']),
         positiveInteger($_POST['count']),
+        positiveNumber($_POST['price']),
     );
     $valid = executeValidationFunctions($validations);
     if($valid['status'] === -1)
@@ -28,8 +29,8 @@ if(isset($_POST['datakey']) && $_POST['datakey'] == "edit-batch" && isset($_POST
         echo returnJsonObject(0, "Error in product data");
         close_connection($connection, $stmt);
     }
-    $stmt = $connection->prepare("update products_batch set name = ?, count = ?, expiry_date = ? where id = ?");
-    $stmt->bind_param("sisi", ...$values);
+    $stmt = $connection->prepare("update products_batch set name = ?, count = ?, price = ?, expiry_date = ? where id = ?");
+    $stmt->bind_param("sidsi", ...$values);
     $connection->autocommit(FALSE);
     try{
         $stmt->execute();

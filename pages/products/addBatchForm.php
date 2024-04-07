@@ -26,6 +26,13 @@
                                     </div>
                                 </div>
                                 <div>
+                                    <input type="number" placeholder="Price per item" id="add-batch-price" name="price"
+                                        class="form-input validate-input data-to-send" data-validate="positiveNumber"
+                                        data-positiveNumber="Price must be a positive number" step="0.1" />
+                                    <div class="validation-message" id="validation-message-add-batch-price">
+                                    </div>
+                                </div>
+                                <div>
                                     <input type="date" placeholder="Expiry Date" id="add-batch-expiryDate"
                                         name="expiry_date" class="form-input validate-input data-to-send"
                                         data-validate="required" data-required="Expiry date is required" />
