@@ -3,11 +3,12 @@
 </head>
 <?php
 $sidebarItems = array(
-    array("icon" => "employees.html", "text" => "Employees", "key" => "employee"),
+    array("icon" => "employees.html", "text" => "Employees", "key" => "employees"),
     // array("icon" => "inventory.html", "text" => "Inventory", "key" => "inventory"),
     array("icon" => "clients.html", "text" => "Clients", "key" => "clients"),
     array("icon" => "products.html", "text" => "Products", "key" => "products"),
     // array("icon" => "batch.html", "text" => "Products Batch", "key" => "batch"),
+    array("icon" => "sales.html", "text" => "Sales", "key" => "sales"),
     array("icon" => "profile.html", "text" => "Profile", "key" => "profile"),
     array("icon" => "settings.html", "text" => "Settings", "key" => "settings"),
     

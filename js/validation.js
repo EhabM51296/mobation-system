@@ -3,7 +3,7 @@ $(document).ready(function () {
     required: function checkRequired(val) {
       return val.trim() !== "";
     },
-    requiredAllowedSpace: function checkRequired(val) {
+    requiredAllowedSpace: function requiredAllowedSpace(val) {
       return val !== "";
     },
     email: function checkEmail(val) {
