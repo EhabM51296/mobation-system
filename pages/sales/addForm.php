@@ -11,10 +11,17 @@
                         <div class="flex flex-column gap-20">
                             <div class="col-2-container w-full flex flex-wrap justify-between">
                                 <div>
-                                    <input type="text" placeholder="Name" id="add-client-name" name="name"
-                                        class="form-input validate-input data-to-send" data-validate="required"
-                                        data-required="Name is required" />
-                                    <div class="validation-message" id="validation-message-add-client-name">
+                                    <input type="number" placeholder="Amount Paid" id="add-sales-amountPaid" name="amount_paid"
+                                        class="form-input validate-input data-to-send" data-validate="positiveNumber"
+                                        data-positiveNumber="Amount paid is required and must be positive" />
+                                    <div class="validation-message" id="validation-message-add-sales-amountPaid">
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="number" placeholder="Discount Amount in %" id="add-sales-discountAmount" name="discount_amount"
+                                        class="form-input validate-input data-to-send" data-validate="percentage"
+                                        data-percentage="Discount amount must be between 0 and 100" />
+                                    <div class="validation-message" id="validation-message-add-sales-discountAmount">
                                     </div>
                                 </div>
                             </div>

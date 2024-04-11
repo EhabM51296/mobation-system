@@ -12,12 +12,13 @@ if (isset($_GET['datakey']) && sessionChecker()) {
     $columnMapping = array(
       0 => 'sales.id',
       1 => 'clients.name',
-      2 => 'sales.id',
+      2 => 'employees.name',
       3 => 'sales.id',
       4 => 'sales.id',
       5 => 'sales.id',
-      6 => 'sales.createdat',
-      7 => 'sales.updatedat',
+      6 => 'sales.id',
+      7 => 'sales.createdat',
+      8 => 'sales.updatedat',
     );
 
     // Determine the column name for sorting
@@ -39,10 +40,10 @@ if (isset($_GET['datakey']) && sessionChecker()) {
   
 
   // queries
-  $query = "select clients.name, amount_paid, total_amount, discount_amount, amount_after_discount, sales.createdat, sales.updatedat,
+  $query = "select clients.name as `clientName`, employees.name as `employeeName`, amount_paid, total_amount, discount_amount, amount_after_discount, sales.createdat, sales.updatedat,
   CONCAT(
     '" . $actioncol . "'
-) AS `actions` from sales, clients where sales.clientid = clients.id and accid = ? $filter
+) AS `actions` from sales, clients, employees where sales.clientid = clients.id and sales.employeeid = employees.id and employees.accid = ? $filter
   ORDER BY $sortColumn $sortingDirection
   limit $limit offset $offset";
   $connection = connectDB();
@@ -53,7 +54,7 @@ if (isset($_GET['datakey']) && sessionChecker()) {
   $result = $stmt->get_result();
   $res = $result->fetch_all(MYSQLI_ASSOC);
     // Count the total number of records
-  $countQuery = "SELECT COUNT(*) AS total from sales, clients where sales.clientid = clients.id and accid = ? $filter";
+  $countQuery = "SELECT COUNT(*) AS total from sales, clients, employees where sales.clientid = clients.id and sales.employeeid = employees.id and employees.accid = ? $filter";
   $stmt = $connection->prepare("$countQuery");
   $stmt->bind_param("is", $_SESSION['user']['accid'], $name);
   $stmt->execute();

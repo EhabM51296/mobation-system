@@ -252,6 +252,8 @@ input[type="text"] ~ .show-hide-password .show-password{
     width: 20px;
 }
 
+
+/* Dropdowns */
 .select-dropdown{
     position: relative;
     width: fit-content;
@@ -293,18 +295,20 @@ input[type="text"] ~ .show-hide-password .show-password{
     text-align: left;
     padding: 0;
     font-size: 14px;
-    padding: 2px;
-    
-
+    padding: 5px;
 }
 .dropdown-item:hover{
     background-color: var(--infoColor);
     color: var(--whiteColor);
 }
 
-.dropdown-item.selected{
+.dropdown-item.active{
+    color: var(--whiteColor);
     background-color: var(--activeColor);
-    background-color: var(--whiteColor);
+}
+
+.select-dropdown.active .dropdown-items{
+    display: block;
 }
 
 

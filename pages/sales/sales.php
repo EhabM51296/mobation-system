@@ -13,7 +13,8 @@
                     <thead>
                         <tr>
                             <th data-name="actions">Actions</th>
-                            <th data-name="name" data-orderable data-filter>Name</th>
+                            <th data-name="clientName" data-orderable data-filter>Client Name</th>
+                            <th data-name="employeeName" data-orderable data-filter>Employee Name</th>
                             <th data-name="amount_paid">Amount Paid</th>
                             <th data-name="total_amount">Amount Paid</th>
                             <th data-name="discount_amount">Discount Amount</th>

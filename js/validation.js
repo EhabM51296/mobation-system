@@ -21,6 +21,11 @@ $(document).ready(function () {
     positiveNumber: function positiveNumber(val) {
       let formula = /^[0-9]\d*(\.\d+)?$/;
       return formula.test(val);
+    },
+    percentage: function percentage(val) {
+      if (val === '') return true;
+      let formula = /^(100(\.0{1,2})?|\d{1,2}(\.\d{1,2})?)$/;
+      return formula.test(val);
     }
   };
   $.fn.hasAttr = function (name) {
