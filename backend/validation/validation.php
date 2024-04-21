@@ -26,6 +26,12 @@ function positiveNumber($value) {
     return preg_match($formula, $value);
 }
 
+function positiveNumberNotRequired($value) {
+    if($value == "") return true;
+    $formula = '/^[0-9]+(?:\.[0-9]+)?$/';
+    return preg_match($formula, $value);
+}
+
 
 function returnJsonObject($status, $data)
 {

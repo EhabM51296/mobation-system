@@ -1,6 +1,6 @@
 <div id="sales" class="page">
     <div class="flex flex-column gap-10">
-        <button data-id="add-sales-modal" class="open-modal flex items-center gap-5 text-md bg-active">
+        <button data-id="add-sales-modal" class="get-products open-modal flex items-center gap-5 text-md bg-active">
             <p class="">Add Sale</p>
             <img src="<?php echo ICONS_PATH; ?>/add.svg" width="30" />
         </button>

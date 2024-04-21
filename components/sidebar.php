@@ -10,7 +10,7 @@ $sidebarItems = array(
     // array("icon" => "batch.html", "text" => "Products Batch", "key" => "batch"),
     array("icon" => "sales.html", "text" => "Sales", "key" => "sales"),
     array("icon" => "profile.html", "text" => "Profile", "key" => "profile"),
-    array("icon" => "settings.html", "text" => "Settings", "key" => "settings"),
+    // array("icon" => "settings.html", "text" => "Settings", "key" => "settings"),
     
 );
 ?>

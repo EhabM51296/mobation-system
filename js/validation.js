@@ -18,6 +18,10 @@ $(document).ready(function () {
       let formula = /^[0-9]\d*$/;
       return formula.test(val);
     },
+    positiveIntegerNotZero: function positiveIntegerNotZero(val) {
+      let formula = /^[1-9]\d*$/;
+      return formula.test(val);
+    },
     positiveNumber: function positiveNumber(val) {
       let formula = /^[0-9]\d*(\.\d+)?$/;
       return formula.test(val);
@@ -143,5 +147,63 @@ $(document).ready(function () {
     }
     $(`#${formid} button[type=submit]`).attr("disabled", false);
     return false;
+  });
+
+  // add/edit prpduct to form
+  $(document).on("click", ".add-edit-product-btn", function(){
+    let productid = $(this).attr("data-productid");
+    let batchInput = $(this).parent().parent().find(".select-dropdown input[type='hidden']");
+    let batchValue = batchInput.val();
+    let batchName = $(this).parent().parent().find(".select-dropdown .select-dropdown-control span").html(); 
+    let batchErrorMessage = batchInput.attr("data-required");
+    let batchInputId = batchInput.attr("id");
+    if(batchValue.length === 0)
+    $(`#validation-message-${batchInputId}`).html(batchErrorMessage);
+    let countInput = $(this).parent().parent().find("input[type='number']");
+    let count = countInput.val();
+    let countErrorMessage = countInput.attr("data-positiveIntegerNotZero");
+    let countInputId = countInput.attr("id"); 
+    let valueToAdd = batchValue + "_" + count + "_" + productid;
+    if(count.length === 0)
+      $(`#validation-message-${countInputId}`).html(countErrorMessage);
+    if(count.length > 0 && batchValue.length > 0)
+    {
+      $(`#validation-message-${countInputId}`).html("");
+      $(`#validation-message-${batchInputId}`).html("");
+
+    let productName = $(this).attr("data-productname");
+    let hiddenInputSelectedValuesId = $(this).attr("data-inputid");
+    let selectedValues = $(`#${hiddenInputSelectedValuesId}`).val();
+    if(selectedValues.length === 0)
+    {
+      $(`#${hiddenInputSelectedValuesId}`).val(`${valueToAdd}`);
+      $(`#${hiddenInputSelectedValuesId}-container`).html(`<button data-value = "${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`)
+    }
+    else{
+      let currentValues = $(`#${hiddenInputSelectedValuesId}`).val().split(",");
+      let found = false;
+      for (let i = 0; i < currentValues.length; i++) {
+        let indexedProductId = currentValues[i].split("_")[2];
+        if(indexedProductId === productid)
+        {
+          currentValues.splice(i, 1);
+          currentValues[currentValues.length] = valueToAdd;
+          $(`#${hiddenInputSelectedValuesId}`).val(currentValues);
+          $(`#${hiddenInputSelectedValuesId}-container button:eq(${i})`).replaceWith(`<button data-value="${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`);
+          found = true;
+          break;
+
+        }
+      }
+      if(!found)
+      {
+        $(`#${hiddenInputSelectedValuesId}`).val($(`#${hiddenInputSelectedValuesId}`).val() + `,${valueToAdd}`);
+        $(`#${hiddenInputSelectedValuesId}-container`).append(`<button data-value = "${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`)
+      }
+      
+    }
+    }
+    return false;
+
   });
 });

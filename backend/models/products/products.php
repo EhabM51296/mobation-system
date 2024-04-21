@@ -7,4 +7,6 @@ require("./delete.php");
 require("./get.php");
 require("./addBatch.php");
 require("./editBatch.php");
+require("./getProductBatchesdropdown.php");
+require("./getProductsIdName.php");
 ?>

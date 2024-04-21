@@ -27,7 +27,8 @@
 .grid-2{
     display: grid;
     grid-template-columns: calc(50% - 25px) calc(50% - 25px);
-    gap: 50px;
+    column-gap: 50px;
+    row-gap: 5px;
 }
 /* spacing */
 .gap-5{
@@ -53,6 +54,12 @@
 }
 .gap-40{
     gap: 40px;
+}
+.col-gap-50{
+    column-gap: 50px;
+}
+.row-gap-5{
+    row-gap: 5px;
 }
 /* width and height */
 .w-full{
@@ -110,6 +117,10 @@
 }
 .text-lg{
     font-size: 20px;
+}
+/* text align */
+.text-center{
+    text-align: center;
 }
 /* Form style */
 .form-input, .dt-input{
@@ -252,7 +263,10 @@ input[type="text"] ~ .show-hide-password .show-password{
     width: 20px;
 }
 
-
+.remove-product{
+    background-color: var(--dangerColor);
+    color: var(--whiteColor);
+}
 /* Dropdowns */
 .select-dropdown{
     position: relative;

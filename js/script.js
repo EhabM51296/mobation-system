@@ -19,11 +19,90 @@ function updateProfile(data)
   $(".useremail-input").val(email);
 }
 
+function generateDropdownComponent(id, name, placeholder = "", server = "", values = [], required = true, errorMessage = "Required", multidropdown = false) {
+  const iconPath = "./assets/icons";
+  let html = '';
+  if (multidropdown)
+      html += '<div class="select-dropdown multidropdown">';
+  else
+      html += '<div class="select-dropdown">';
+  html += `<button placeholder="${placeholder}" class="select-dropdown-control" type="button" data-server="${server}">`;
+  html += `<span>${placeholder}</span>`;
+  html += `<img src="${iconPath}/dropdownArrow.svg" width="12px" />`;
+  html += '</button>';
+  if (required) {
+      html += `<input type="hidden" value="" class="dropdown-selected-values validate-input data-to-send" data-validate="required" data-required="${errorMessage}" id="${id}" name="${name}" />`;
+  } else {
+      html += `<input type="hidden" value="" class="dropdown-selected-values data-to-send" id="${id}" name="${name}" />`;
+  }
+  html += '<div class="dropdown-items">';
+  if (server === "") {
+      values.forEach(item => {
+          html += `<button class="dropdown-item" data-value="${item.value}" data-label="${item.label}"> ${item.label} </button>`;
+      });
+  }
+  html += '</div>';
+  html += `<div class="validation-message" id="validation-message-${id}"></div>`;
+  html += '</div>';
+  return html;
+}
+
 $(document).ready(function(){
   // $(".sidebar-toggle").click(function(){
   //   $("#sidebar").toggleClass("show");
   // });
 
+
+  $(document).on("click",".get-products",function(){
+    $.ajax({
+      type: "get",
+      // async: false,
+      processData: false,
+      contentType: false,
+      cache: false,
+      url: `./backend/models/products/products.php?productsIdName=1`,
+      success: function (data) {
+        try {
+          let res = JSON.parse(data);
+          let status = res.status;
+          let recentData = res.data;
+          if(status === 1)
+          {
+            let html = "";
+              Object.entries(recentData).forEach((e) => {
+                  const [k, v] = e;
+                  let dropdown = generateDropdownComponent(`add-sales-product-batch-dropdown-${k}`, `productBatch`, "Product Batch", `products/products.php?batchdropdown=${v.id}`, [], true, 'Batch is required', false);
+                  html += `<div>
+                                <div class="flex gap-5">
+                                    <label>${v.name}</label>
+                                    ${dropdown}
+                                    <div>
+                                        <input type="number" placeholder="Count" id="add-sales-count-${k}" name="count"
+                                            class="form-input validate-input data-to-send"
+                                            data-validate="positiveIntegerNotZero"
+                                            data-positiveIntegerNotZero="Count must be greater than 0" />
+                                        <div class="validation-message" id="validation-message-add-sales-count-${k}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button data-inputid="add-sales-products-selected"
+                                            class="bg-active add-edit-product-btn" type="button" data-productid = "${v.id}" data-productname="${v.name}">Add/Edit</button>
+                                    </div>
+                                </div>
+                            </div>`;
+              });
+              $(".products-list-container").html(html);
+          }
+        } catch (e) {
+          console.log(`error - ${e}`);
+          return;
+        }
+      },
+      error: function () {
+        alert("failed to connect to database");
+      },
+    });
+  });
  
   $(document).on("click",".open-modal",function(){
     let id = $(this).attr("data-id");
@@ -51,6 +130,50 @@ $(document).ready(function(){
 
 $(document).on("click", ".select-dropdown-control", function(){
   $(this).parent().toggleClass("active");
+  let serverValue = $(this).attr("data-server");
+  console.log(serverValue);
+  if($(this).parent().hasClass("active") && serverValue !== "")
+  {
+    let currentValues = $(this).parent().find("input[type='hidden']").val().split(",");
+    let dropdownItemsContainer = $(this).parent().find(".dropdown-items");
+    console.log(currentValues);
+    $.ajax({
+      type: "get",
+      // async: false,
+      processData: false,
+      contentType: false,
+      cache: false,
+      url: `./backend/models/${serverValue}`,
+      success: function (data) {
+        try {
+          let res = JSON.parse(data);
+          let status = res.status;
+          let recentData = res.data;
+          if(status === 1)
+          {
+            let html = "";
+              Object.entries(recentData).forEach((e) => {
+                  const [k, v] = e;
+                  let currentValueExists = currentValues.includes(v.id.toString()); 
+                  let active = "";
+                  if(currentValueExists)
+                    active = "active";
+                console.log(k , " ", v.id);
+                console.log(currentValues);
+                 html += `<button type="button" class="dropdown-item ${active}" data-value="${v.id}" data-label="${v.name}"> ${v.name} </button>`;
+              });
+              dropdownItemsContainer.html(html);
+          }
+        } catch (e) {
+          console.log(`error - ${e}`);
+          return;
+        }
+      },
+      error: function () {
+        alert("failed to connect to database");
+      },
+    });
+  }
 });
 
 $(document).mouseup(function(e) 
@@ -107,7 +230,28 @@ $(document).on("click", ".dropdown-item", function(){
         item.addClass("active");
       }
   }
+  if(container.find("input[type='hidden']").val().length > 0)
+  {
+    container.find(".validation-message").html("");
+  }
+  else{
+    container.find(".select-dropdown-control span").html(container.find(".select-dropdown-control").attr("placeholder"));
+  }
   return;
+});
+
+
+$(document).on("click", ".remove-product", function(){
+  let value = $(this).attr("data-value");
+  inputValue = $(this).parent().parent().find("input[type='hidden']").val().split(",");
+  let index = inputValue.indexOf(value);
+  if (index !== -1) {
+      inputValue.splice(index, 1);
+  }
+
+  // Join the array back into a string and set it as the value of the hidden input
+  $(this).parent().parent().find("input[type='hidden']").val(inputValue.join(","));
+  $(this).remove();
 });
 
 });
