@@ -153,6 +153,8 @@ $(document).ready(function () {
   $(document).on("click", ".add-edit-product-btn", function(){
     let productid = $(this).attr("data-productid");
     let batchInput = $(this).parent().parent().find(".select-dropdown input[type='hidden']");
+    let availableCount = parseInt(batchInput.attr("data-count"));
+    let price = parseInt(batchInput.attr("data-price"));
     let batchValue = batchInput.val();
     let batchName = $(this).parent().parent().find(".select-dropdown .select-dropdown-control span").html(); 
     let batchErrorMessage = batchInput.attr("data-required");
@@ -160,13 +162,13 @@ $(document).ready(function () {
     if(batchValue.length === 0)
     $(`#validation-message-${batchInputId}`).html(batchErrorMessage);
     let countInput = $(this).parent().parent().find("input[type='number']");
-    let count = countInput.val();
+    let count = parseInt(countInput.val());
     let countErrorMessage = countInput.attr("data-positiveIntegerNotZero");
     let countInputId = countInput.attr("id"); 
     let valueToAdd = batchValue + "_" + count + "_" + productid;
-    if(count.length === 0)
+    if(count.toString().length === 0 || count <= 0 || count > availableCount)
       $(`#validation-message-${countInputId}`).html(countErrorMessage);
-    if(count.length > 0 && batchValue.length > 0)
+    if(count.toString().length > 0 && count > 0 && count <= availableCount && batchValue.length > 0)
     {
       $(`#validation-message-${countInputId}`).html("");
       $(`#validation-message-${batchInputId}`).html("");
@@ -177,7 +179,11 @@ $(document).ready(function () {
     if(selectedValues.length === 0)
     {
       $(`#${hiddenInputSelectedValuesId}`).val(`${valueToAdd}`);
-      $(`#${hiddenInputSelectedValuesId}-container`).html(`<button data-value = "${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`)
+      $(`#${hiddenInputSelectedValuesId}-container`).html(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column" type="button" data-price="${price}">
+      <div>${productName}</div>
+      <div>${batchName}</div>
+      <div>Requested: ${count}</div>
+      </button>`)
     }
     else{
       let currentValues = $(`#${hiddenInputSelectedValuesId}`).val().split(",");
@@ -186,10 +192,13 @@ $(document).ready(function () {
         let indexedProductId = currentValues[i].split("_")[2];
         if(indexedProductId === productid)
         {
-          currentValues.splice(i, 1);
-          currentValues[currentValues.length] = valueToAdd;
+          currentValues[i] = valueToAdd;
           $(`#${hiddenInputSelectedValuesId}`).val(currentValues);
-          $(`#${hiddenInputSelectedValuesId}-container button:eq(${i})`).replaceWith(`<button data-value="${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`);
+          $(`#${hiddenInputSelectedValuesId}-container button:eq(${i})`).replaceWith(`<button data-value="${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
+          <div>${productName}</div>
+          <div>${batchName}</div>
+          <div>Requested: ${count}</div>
+          </button>`);
           found = true;
           break;
 
@@ -198,10 +207,16 @@ $(document).ready(function () {
       if(!found)
       {
         $(`#${hiddenInputSelectedValuesId}`).val($(`#${hiddenInputSelectedValuesId}`).val() + `,${valueToAdd}`);
-        $(`#${hiddenInputSelectedValuesId}-container`).append(`<button data-value = "${valueToAdd}" class="remove-product" type="button">${productName} - ${batchName} - ${count}</button>`)
+        $(`#${hiddenInputSelectedValuesId}-container`).append(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
+        <div>${productName}</div>
+        <div>${batchName}</div> 
+        <div>Requested: ${count}</div>
+        </button>`)
       }
-      
     }
+    
+    $("#validation-message-add-sales-products-selected").html("");
+    invoiceTotalPrice();
     }
     return false;
 

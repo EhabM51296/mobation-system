@@ -16,6 +16,7 @@ function login($email, $password)
                     "accid" => $row["id"],
                     "name" => $row['name'],
                     "email" => $row['email'],
+                    "isAdmin" => true,
                 );
                 $_SESSION['user'] = $user;
                 $loggedin = true;

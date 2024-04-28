@@ -8,7 +8,9 @@ if (isset($_GET['batchdropdown'])) {
     }
     $id = $_GET['batchdropdown'];
     $connection = connectDB();
-    $stmt = $connection->prepare("select id, name from products_batch where prodid = ?");
+    $stmt = $connection->prepare("select id, CONCAT('batch name: ', name, ', available: ', count, ', price: ', price) AS name,
+    CONCAT('count:', count, '_price:', price) AS neededValues
+    from products_batch where prodid = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();

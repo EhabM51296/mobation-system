@@ -22,8 +22,8 @@
                                 <div>
                                     <input type="number" placeholder="Discount Amount in %"
                                         id="add-sales-discountAmount" name="discount_amount"
-                                        class="form-input validate-input data-to-send" data-validate="percentage"
-                                        data-percentage="Discount amount must be between 0 and 100" />
+                                        class="form-input validate-input data-to-send discount-input" data-validate="percentage"
+                                        data-percentage="Discount amount must be between 0 and 100" step="0.01" />
                                     <div class="validation-message" id="validation-message-add-sales-discountAmount">
                                     </div>
                                 </div>
@@ -39,6 +39,9 @@
                                 <div class="validation-message text-center" id="validation-message-add-sales-products-selected">
                                 </div>
                             </div>
+                            <div>
+                                <p>Total amount: <span class="add-total-amount">0</span></p>
+                            </div>
                             <div class="w-full flex gap-20 justify-end">
                                 <button class="bg-active" type="submit">Add</button>
                                 <button class="bg-danger close-modal" type="button">Cancel</button>
@@ -49,7 +52,7 @@
                 <!-- Products Forms -->
                 <div class="flex flex-column gap-10">
                     <h3>Add/Edit Product to sales</h3>
-                    <div class="flex flex-wrap col-gap-50 row-gap-5 products-list-container">
+                    <div class="grid-2 products-list-container">
                         <!-- get all products -->
                        
                     </div>

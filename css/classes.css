@@ -72,6 +72,9 @@
 .w-max-200px{
     max-width: 200px;
 }
+.w-min-320px{
+    min-width: 320px;
+}
 /* positions */
 .relative{
     position: relative;
@@ -158,6 +161,7 @@
     color: var(--dangerColor);
     font-family: light;
     margin-top: 5px;
+    width: 100%;
 }
 /* others */
 .page{
@@ -271,7 +275,6 @@ input[type="text"] ~ .show-hide-password .show-password{
 .select-dropdown{
     position: relative;
     width: fit-content;
-    z-index: 9999;
 }
 .dropdown-items{
     width: 100%;

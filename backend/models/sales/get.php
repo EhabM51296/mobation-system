@@ -40,12 +40,28 @@ if (isset($_GET['datakey']) && sessionChecker()) {
   
 
   // queries
-  $query = "select clients.name as `clientName`, employees.name as `employeeName`, amount_paid, total_amount, discount_amount, amount_after_discount, sales.createdat, sales.updatedat,
-  CONCAT(
-    '" . $actioncol . "'
-) AS `actions` from sales, clients, employees where sales.clientid = clients.id and sales.employeeid = employees.id and employees.accid = ? $filter
-  ORDER BY $sortColumn $sortingDirection
-  limit $limit offset $offset";
+  $query = "SELECT sales.id,
+  clients.name AS `clientName`, 
+  employees.name AS `employeeName`, 
+  amount_paid, 
+  total_amount, 
+  discount_amount, 
+  amount_after_discount, 
+  sales.createdat, 
+  sales.updatedat, 
+  CONCAT('" . $actioncol . "') AS `actions` 
+FROM 
+  sales 
+INNER JOIN 
+  clients ON sales.clientid = clients.id 
+LEFT JOIN 
+  employees ON sales.employeeid = employees.id and employees.accid = ? 
+  $filter
+ORDER BY 
+  $sortColumn $sortingDirection 
+LIMIT 
+  $limit OFFSET $offset
+";
   $connection = connectDB();
     // execute main query
   $stmt = $connection->prepare("$query");
@@ -54,7 +70,13 @@ if (isset($_GET['datakey']) && sessionChecker()) {
   $result = $stmt->get_result();
   $res = $result->fetch_all(MYSQLI_ASSOC);
     // Count the total number of records
-  $countQuery = "SELECT COUNT(*) AS total from sales, clients, employees where sales.clientid = clients.id and sales.employeeid = employees.id and employees.accid = ? $filter";
+  $countQuery = "SELECT COUNT(*) AS total FROM 
+  sales 
+JOIN 
+  clients ON sales.clientid = clients.id 
+LEFT JOIN 
+  employees ON sales.employeeid = employees.id and employees.accid = ? 
+  $filter";
   $stmt = $connection->prepare("$countQuery");
   $stmt->bind_param("is", $_SESSION['user']['accid'], $name);
   $stmt->execute();
