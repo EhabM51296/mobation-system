@@ -49,7 +49,7 @@ if (isset($_POST['datakey']) && $_POST['datakey'] == "add-sales") {
     $amountPaid = $_POST['amount_paid'];
 
 
-    if($_POST['amount_paid'] > $totalAmountAfterDiscount)
+    if($amountPaid > $totalAmountAfterDiscount)
     {
         echo returnJsonObject(0, "Amount paid $amountPaid is more than the amount of invoice $totalAmountAfterDiscount");
         close_connection($connection, $stmt_details);

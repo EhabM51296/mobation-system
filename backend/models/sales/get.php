@@ -33,7 +33,7 @@ if (isset($_GET['datakey']) && sessionChecker()) {
 
    // actions
    $actioncol = '<div>
-   <button class="action-button action-edit bg-warning" data-obj = "sales"><img src="./assets/icons/edit.svg" /></button>
+   <button data-type = "edit" class="action-button action-edit-sales get-products bg-warning" data-obj = "sales"><img src="./assets/icons/edit.svg" /></button>
    <button class="action-button action-delete bg-danger" data-obj = "sales"><img src="./assets/icons/delete.svg" /></button>
 </div>';
 

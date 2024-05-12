@@ -26,7 +26,7 @@ function generateDropdownComponent(id, name, placeholder = "", server = "", valu
       html += `<div class="select-dropdown multidropdown ${className}">`;
   else
       html += `<div class="select-dropdown ${className}">`;
-  html += `<button placeholder="${placeholder}" class="select-dropdown-control" type="button" data-server="${server}">`;
+  html += `<button placeholder="${placeholder}" class="select-dropdown-control" type="button" data-server="${server}" name='${name}-button'>`;
   html += `<span>${placeholder}</span>`;
   html += `<img src="${iconPath}/dropdownArrow.svg" width="12px" />`;
   html += '</button>';
@@ -47,18 +47,62 @@ function generateDropdownComponent(id, name, placeholder = "", server = "", valu
   return html;
 }
 
-function invoiceTotalPrice()
+function invoiceTotalPrice(edit = false)
 {
   let total = 0;
-  $("#add-sales-products-selected-container button.remove-product").each(function() {
+  let formType = edit ? "edit" : "add";
+  $(`#${formType}-sales-products-selected-container button.remove-product`).each(function() {
     let price = $(this).attr("data-price");
     let count = $(this).attr("data-value").split("_")[1];
     let amount = price * count;
     total += amount; 
 });
-let discount = $("#add-sales-discountAmount").val();
+let discount = $(`#${formType}-sales-discountAmount`).val();
 total = total - (total * discount / 100);
-$(".add-total-amount").html(total);
+$(`.${formType}-total-amount`).html(total);
+}
+
+function fillProductsSelected(valueToAdd, hiddenInputSelectedValuesId, productName, details, count, productid, price) {
+  let selectedValues = $(`#${hiddenInputSelectedValuesId}`).val();
+  console.log(details);
+  if(selectedValues.length === 0)
+    {
+      $(`#${hiddenInputSelectedValuesId}`).val(`${valueToAdd}`);
+      $(`#${hiddenInputSelectedValuesId}-container`).html(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column" type="button" data-price="${price}">
+      <div>${productName}</div>
+      <div>${details}</div>
+      <div>Requested: ${count}</div>
+      </button>`)
+    }
+    else{
+      let currentValues = $(`#${hiddenInputSelectedValuesId}`).val().split(",");
+      let found = false;
+      for (let i = 0; i < currentValues.length; i++) {
+        let indexedProductId = currentValues[i].split("_")[2];
+        if(indexedProductId === productid)
+        {
+          currentValues[i] = valueToAdd;
+          $(`#${hiddenInputSelectedValuesId}`).val(currentValues);
+          $(`#${hiddenInputSelectedValuesId}-container button:eq(${i})`).replaceWith(`<button data-value="${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
+          <div>${productName}</div>
+          <div>${batchName}</div>
+          <div>Requested: ${count}</div>
+          </button>`);
+          found = true;
+          break;
+
+        }
+      }
+      if(!found)
+      {
+        $(`#${hiddenInputSelectedValuesId}`).val($(`#${hiddenInputSelectedValuesId}`).val() + `,${valueToAdd}`);
+        $(`#${hiddenInputSelectedValuesId}-container`).append(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
+        <div>${productName}</div>
+        <div>${details}</div> 
+        <div>Requested: ${count}</div>
+        </button>`)
+      }
+    }
 }
 $(document).ready(function(){
   // $(".sidebar-toggle").click(function(){
@@ -67,6 +111,7 @@ $(document).ready(function(){
 
 
   $(document).on("click",".get-products",function(){
+    let type = $(this).attr("data-type");
     $.ajax({
       type: "get",
       // async: false,
@@ -84,27 +129,27 @@ $(document).ready(function(){
             let html = "";
               Object.entries(recentData).forEach((e) => {
                   const [k, v] = e;
-                  let dropdown = generateDropdownComponent(`add-sales-product-batch-dropdown-${k}`, `productBatch`, "Product Batch", `products/products.php?batchdropdown=${v.id}`, [], true, 'Batch is required', false, "w-min-320px");
+                  let dropdown = generateDropdownComponent(`${type}-sales-product-batch-dropdown-${k}`, `productBatch`, "Product Batch", `products/products.php?batchdropdown=${v.id}`, [], true, 'Batch is required', false, "w-min-320px");
                   html += `<div>
                                 <div class="flex gap-5">
                                     <label>${v.name}</label>
                                     ${dropdown}
                                     <div>
-                                        <input type="number" placeholder="Count" id="add-sales-count-${k}" name="count"
+                                        <input type="number" placeholder="Count" id="${type}-sales-count-${k}" name="count"
                                             class="form-input validate-input data-to-send"
                                             data-validate="positiveIntegerNotZero"
                                             data-positiveIntegerNotZero="Count must be greater than 0 and less than or equal to the number of available items" />
-                                        <div class="validation-message" id="validation-message-add-sales-count-${k}">
+                                        <div class="validation-message" id="validation-message-${type}-sales-count-${k}">
                                         </div>
                                     </div>
                                     <div>
-                                        <button data-inputid="add-sales-products-selected"
+                                        <button data-inputid="${type}-sales-products-selected"
                                             class="bg-active add-edit-product-btn" type="button" data-productid = "${v.id}" data-productname="${v.name}">Add/Edit</button>
                                     </div>
                                 </div>
                             </div>`;
               });
-              $(".products-list-container").html(html);
+              $(`.products-list-container-${type}`).html(html);
           }
         } catch (e) {
           console.log(`error - ${e}`);
@@ -217,7 +262,7 @@ $(document).on("click", ".dropdown-item", function(){
       let splitter = dataValue.split(":");
       let dn = splitter[0];
       let dv = splitter[1];
-      console.log(dataValue);
+      // console.log(dataValue); // count and price
       inputValues.attr(`data-${dn}`, dv);
   });
     container.removeClass("active");

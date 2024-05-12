@@ -156,7 +156,7 @@ $(document).ready(function () {
     let availableCount = parseInt(batchInput.attr("data-count"));
     let price = parseInt(batchInput.attr("data-price"));
     let batchValue = batchInput.val();
-    let batchName = $(this).parent().parent().find(".select-dropdown .select-dropdown-control span").html(); 
+    let details = $(this).parent().parent().find(".select-dropdown .select-dropdown-control span").html(); 
     let batchErrorMessage = batchInput.attr("data-required");
     let batchInputId = batchInput.attr("id");
     if(batchValue.length === 0)
@@ -175,45 +175,8 @@ $(document).ready(function () {
 
     let productName = $(this).attr("data-productname");
     let hiddenInputSelectedValuesId = $(this).attr("data-inputid");
-    let selectedValues = $(`#${hiddenInputSelectedValuesId}`).val();
-    if(selectedValues.length === 0)
-    {
-      $(`#${hiddenInputSelectedValuesId}`).val(`${valueToAdd}`);
-      $(`#${hiddenInputSelectedValuesId}-container`).html(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column" type="button" data-price="${price}">
-      <div>${productName}</div>
-      <div>${batchName}</div>
-      <div>Requested: ${count}</div>
-      </button>`)
-    }
-    else{
-      let currentValues = $(`#${hiddenInputSelectedValuesId}`).val().split(",");
-      let found = false;
-      for (let i = 0; i < currentValues.length; i++) {
-        let indexedProductId = currentValues[i].split("_")[2];
-        if(indexedProductId === productid)
-        {
-          currentValues[i] = valueToAdd;
-          $(`#${hiddenInputSelectedValuesId}`).val(currentValues);
-          $(`#${hiddenInputSelectedValuesId}-container button:eq(${i})`).replaceWith(`<button data-value="${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
-          <div>${productName}</div>
-          <div>${batchName}</div>
-          <div>Requested: ${count}</div>
-          </button>`);
-          found = true;
-          break;
-
-        }
-      }
-      if(!found)
-      {
-        $(`#${hiddenInputSelectedValuesId}`).val($(`#${hiddenInputSelectedValuesId}`).val() + `,${valueToAdd}`);
-        $(`#${hiddenInputSelectedValuesId}-container`).append(`<button data-value = "${valueToAdd}" class="remove-product flex flex-column gap-5" type="button" data-price="${price}">
-        <div>${productName}</div>
-        <div>${batchName}</div> 
-        <div>Requested: ${count}</div>
-        </button>`)
-      }
-    }
+    
+    fillProductsSelected(valueToAdd, hiddenInputSelectedValuesId, productName, details, count, productid, price);
     
     $("#validation-message-add-sales-products-selected").html("");
     invoiceTotalPrice();

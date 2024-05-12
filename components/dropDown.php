@@ -5,7 +5,7 @@ function generateDropdownComponent($id, $name, $placeholder = "", $server = "", 
         $html = '<div class="select-dropdown multidropdown">';
     else
         $html = '<div class="select-dropdown">';
-    $html .= '<button placeholder = "'.$placeholder.'" class="select-dropdown-control" type="button" data-server = "'.$server.'">';
+    $html .= '<button placeholder = "'.$placeholder.'" class="select-dropdown-control" type="button" data-server = "'.$server.'" name="'.$name.'-button">';
     $html .= '<span>' . $placeholder . '</span>';
     $html .= '<img src="' . $iconPath . '/dropdownArrow.svg" width="12px" />';
     $html .= '</button>';

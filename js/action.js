@@ -11,6 +11,7 @@ $(document).ready(function(){
             url: `./backend/models/${object}/${object}.php?action-edit=${object}&id=${id}`,
             success: function (data) {
               try {
+                console.log(data);
                 let res = JSON.parse(data);
                 let status = res.status;
                 let recentData = res.data;
@@ -22,9 +23,19 @@ $(document).ready(function(){
                         Object.entries(v).forEach((entry) => {
                             const [key, value] = entry;
                             $(`#edit-${object}-form input[name=${key}]`).val(value);
+                            // for dropdown label
+                            if(key.includes("_dropdown")){
+                              let labelName = key.split("_dropdown")[0];
+                              $(`button[name=${labelName}]`).html(value);
+                            }
                         });
                     });
                   $(`#edit-${object}-modal`).fadeIn();
+                  // calcuate total amount of invoice
+                  if(object == "sales")
+                    {
+                      invoiceTotalPrice(true);
+                    }
                 }
               } catch (e) {
                 console.log(`error - ${e}`);
@@ -36,6 +47,73 @@ $(document).ready(function(){
             },
           });
     });
+
+    $(document).on("click", ".action-edit-sales",function(){
+      let object = $(this).attr("data-obj");
+      let id = $(this).closest('tr').data('id');
+      $.ajax({
+          type: "get",
+          // async: false,
+          processData: false,
+          contentType: false,
+          cache: false,
+          url: `./backend/models/${object}/${object}.php?action-edit=${object}&id=${id}`,
+          success: function (data) {
+            try {
+              console.log(data);
+              
+              
+              let res = JSON.parse(data);
+              let status = res.status;
+              let dataArray = res.data;
+              if(status === 1)
+              {
+                $(`#edit-${object}-form`).attr("data-id", id);
+                let sarray = dataArray.saleInfo[0];
+                let sid = sarray.sid;
+                let totalAmount = sarray.total_amount;
+                let amountAfterDiscount = sarray.amount_after_discount;
+                let discountAmount = sarray.discount_amount;
+                let amountPaid = sarray.amount_paid;
+                let clientName = sarray.clientName;
+                let clientId = sarray.clientid;
+                let clientLabel = $("#edit-sales-form button[name='clients-button'] span");
+                let clientInput = $("#edit-sales-form input[name='clients']");
+                clientLabel.html(clientName);
+                clientInput.val(clientId);
+                $("#edit-sales-amountPaid").val(amountPaid);
+                $("#edit-sales-discountAmount").val(discountAmount);
+                $("#edit-total-amount").html(amountAfterDiscount);
+                let products = dataArray.productsDetails;
+                let hiddenInputSelectedValuesId = "edit-sales-products-selected";
+                $(`#${hiddenInputSelectedValuesId}`).val("");
+                products.forEach(function(product) {
+                  console.log(product);
+                  let batchid = product.batchid;
+                  let count = product.count;
+                  let productid = product.product_id;
+                  let productName = product.product_name;
+                  let price = product.price;
+                  // batch name: batch 10001, available: 41, price: 12
+                  let details = `batch name: ${product.batchname}, price: ${price}`;
+                  let valueToAdd = batchid + "_" + count + "_" + productid;
+                  fillProductsSelected(valueToAdd, hiddenInputSelectedValuesId, productName, details, count, productid, price);
+                });  
+                $("#validation-message-edit-sales-products-selected").html("");
+                invoiceTotalPrice();                
+                $(`#edit-${object}-modal`).fadeIn();
+
+              }
+            } catch (e) {
+              console.log(`error - ${e}`);
+              return;
+            }
+          },
+          error: function () {
+            alert("failed to connect to database");
+          },
+        });
+  });
 
     $(document).on("click", ".action-edit-batch",function(){
       let object = $(this).attr("data-obj");

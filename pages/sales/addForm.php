@@ -52,7 +52,7 @@
                 <!-- Products Forms -->
                 <div class="flex flex-column gap-10">
                     <h3>Add/Edit Product to sales</h3>
-                    <div class="grid-2 products-list-container">
+                    <div class="grid-2 products-list-container-add">
                         <!-- get all products -->
                        
                     </div>
