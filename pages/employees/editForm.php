@@ -33,6 +33,36 @@
                                     <div class="validation-message" id="validation-message-edit-employee-password">
                                     </div>
                                 </div>
+                                <div>
+                                    <input type="date" placeholder="Date of birth" id="edit-employee-dob" name="dob"
+                                        class="form-input data-to-send" 
+                                        />
+                                </div>
+                                <div>
+                                    <input type="text" placeholder="Location" id="edit-employee-location" name="location"
+                                        class="form-input data-to-send"/>
+                                </div>
+                                <div>
+                                    <input type="number" placeholder="Salary" id="edit-employee-salary" name="salary"
+                                        class="form-input validate-input data-to-send" data-validate="positiveNumber"
+                                        data-positiveNumber="Salary must be a positive number" step="0.1" />
+                                    <div class="validation-message" id="validation-message-edit-employee-salary">
+                                    </div>
+                                </div>
+                                <div class="flex flex-column gap-10 items-center">
+                                    <div>
+                                        <img src="./assets/images/noProfile.jpg" class="file-preview" id = "edit-employee-picture-preview" data-default-src = "./assets/images/noProfile.jpg"/>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="file" placeholder="Picture" id="edit-employee-picture"
+                                            name="picture"
+                                            data-preview
+                                            class="form-input data-to-send custom-file-input" />
+                                        <button type="button" class="custom-file-input-controller bg-active text-white">
+                                            Edit Image
+                                        </button>
+                                    </div>
+                                </div>
 
                             </div>
                             <div class="w-full flex gap-20 justify-end">

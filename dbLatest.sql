@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2024 at 11:37 AM
+-- Generation Time: May 19, 2024 at 01:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,20 +85,16 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `location`, `accid`, `createdat`, 
 CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
+  `dob` date DEFAULT NULL,
+  `salary` double DEFAULT NULL,
+  `location` varchar(150) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `token_key` varchar(255) NOT NULL,
   `accid` int(11) NOT NULL,
   `createdat` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `employees`
---
-
-INSERT INTO `employees` (`id`, `name`, `password`, `token_key`, `accid`, `createdat`, `updatedat`) VALUES
-(3, 'employee x', 'Admin123!', '79d23f2a991da0f9b1cb5fc36611ce2bc06f22e83b3d27292466f3c1ab5a06e0', 1, '2024-04-07 06:16:58', '2024-04-07 06:26:29'),
-(9, 'Employee xy', 'Admin123!', '370a6748a6f169d529172827f01d860756352b9c56d7247fd4c7e154c5dd2705', 1, '2024-04-07 06:24:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -119,8 +115,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `accid`, `createdat`, `updatedat`) VALUES
-(3, 'product x', 1, '2024-03-31 15:12:33', NULL),
-(4, 'product y', 1, '2024-04-14 16:57:15', NULL);
+(4, 'product y', 1, '2024-04-14 16:57:15', NULL),
+(5, 'yy', 1, '2024-05-05 21:10:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -144,10 +140,8 @@ CREATE TABLE `products_batch` (
 --
 
 INSERT INTO `products_batch` (`id`, `name`, `count`, `expiry_date`, `prodid`, `price`, `createdat`, `updatedat`) VALUES
-(1, 'batch-1002', 1, '2024-05-04', 3, 0.5, '2024-04-06 14:03:17', '2024-04-07 13:49:14'),
-(2, 'batch-1003', 25, '2024-04-06', 3, 0, '2024-04-06 16:50:47', '2024-04-06 16:55:29'),
-(3, 'b-10033', 252, '2024-04-17', 3, 41, '2024-04-07 13:44:25', '2024-04-07 13:44:40'),
-(4, 'batch 10001', 45, '2024-05-02', 4, 12, '2024-04-14 16:57:39', NULL);
+(4, 'batch 10001', 2, '2024-05-02', 4, 12, '2024-04-14 16:57:39', '2024-05-12 16:53:15'),
+(5, '1009', 7, '2024-06-08', 5, 54.6, '2024-05-05 21:10:38', '2024-05-12 16:53:35');
 
 -- --------------------------------------------------------
 
@@ -157,6 +151,7 @@ INSERT INTO `products_batch` (`id`, `name`, `count`, `expiry_date`, `prodid`, `p
 
 CREATE TABLE `sales` (
   `id` int(11) NOT NULL,
+  `accid` int(11) NOT NULL,
   `clientid` int(11) NOT NULL,
   `employeeid` int(11) DEFAULT NULL,
   `amount_paid` double NOT NULL,
@@ -166,13 +161,6 @@ CREATE TABLE `sales` (
   `createdat` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `clientid`, `employeeid`, `amount_paid`, `total_amount`, `discount_amount`, `amount_after_discount`, `createdat`, `updatedat`) VALUES
-(5, 7, NULL, 12, 0, 14, 0, '2024-04-14 17:21:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -188,14 +176,6 @@ CREATE TABLE `sales_details` (
   `createdat` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `sales_details`
---
-
-INSERT INTO `sales_details` (`id`, `saleid`, `batchid`, `count`, `createdat`, `updatedat`) VALUES
-(1, 5, 4, 0, '2024-04-14 17:21:44', NULL),
-(2, 5, 1, 0, '2024-04-14 17:21:44', NULL);
 
 --
 -- Indexes for dumped tables
@@ -245,15 +225,16 @@ ALTER TABLE `products_batch`
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`id`),
   ADD KEY `clientid` (`clientid`),
-  ADD KEY `employeeid` (`employeeid`);
+  ADD KEY `employeeid` (`employeeid`),
+  ADD KEY `accid` (`accid`);
 
 --
 -- Indexes for table `sales_details`
 --
 ALTER TABLE `sales_details`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `saleid` (`saleid`),
-  ADD KEY `batchid` (`batchid`);
+  ADD KEY `batchid` (`batchid`),
+  ADD KEY `sales_details_ibfk_1` (`saleid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -275,31 +256,31 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products_batch`
 --
 ALTER TABLE `products_batch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sales_details`
 --
 ALTER TABLE `sales_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -334,13 +315,14 @@ ALTER TABLE `products_batch`
 --
 ALTER TABLE `sales`
   ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`clientid`) REFERENCES `clients` (`id`),
-  ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`employeeid`) REFERENCES `employees` (`id`);
+  ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`employeeid`) REFERENCES `employees` (`id`),
+  ADD CONSTRAINT `sales_ibfk_3` FOREIGN KEY (`accid`) REFERENCES `accounts` (`id`);
 
 --
 -- Constraints for table `sales_details`
 --
 ALTER TABLE `sales_details`
-  ADD CONSTRAINT `sales_details_ibfk_1` FOREIGN KEY (`saleid`) REFERENCES `sales` (`id`),
+  ADD CONSTRAINT `sales_details_ibfk_1` FOREIGN KEY (`saleid`) REFERENCES `sales` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sales_details_ibfk_2` FOREIGN KEY (`batchid`) REFERENCES `products_batch` (`id`);
 COMMIT;
 

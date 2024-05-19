@@ -1,3 +1,4 @@
+var mobileSize = 768;
 function showMessageModal(type, text) {
   if (typeof text !== 'undefined') {
     $(`#message-modal-container-${type} p`).html(text);
@@ -17,6 +18,14 @@ function updateProfile(data)
   $(".username-input").val(name);
   $(".useremail").html(email);
   $(".useremail-input").val(email);
+}
+
+function mobileOnLoad() {
+  let w = $(window).width();
+  if(w <= mobileSize)
+    {
+      $(".sidebar-toggle").click();
+    }
 }
 
 function generateDropdownComponent(id, name, placeholder = "", server = "", values = [], required = true, errorMessage = "Required", multidropdown = false, className = "") {
@@ -105,9 +114,10 @@ function fillProductsSelected(valueToAdd, hiddenInputSelectedValuesId, productNa
     }
 }
 $(document).ready(function(){
-  // $(".sidebar-toggle").click(function(){
-  //   $("#sidebar").toggleClass("show");
-  // });
+  $(".sidebar-toggle").click(function(){
+    $("#sidebar").toggleClass("show");
+    // $("#sidebar").animate({width:'toggle'},350);
+  });
 
 
   $(document).on("click",".get-products",function(){
@@ -325,4 +335,38 @@ $(document).on("click", ".remove-product", function(){
 $(document).on("input", ".discount-input", function(){
   invoiceTotalPrice();
 });
+
+// for image preview
+$(document).on("change", "input[type=file]", function(){
+  if($(this).hasAttr("data-preview"))
+    {
+      let inputid = $(this).attr("id");
+      let val = $(this).val();
+      let src = "";
+      if(val === "")
+      src = $(`#${inputid}-preview`).attr("data-default-src");
+      else {
+        let file = this.files[0];
+        if (file) {
+          let fileSizeMB = file.size / 1024 / 1024;
+          let fileType = file.type;
+          if (!fileType.startsWith('image/')) {
+            alert("Please upload a valid image file.");
+            $(this).val('');
+            src = $(`#${inputid}-preview`).attr("data-default-src");
+          } else if (fileSizeMB > 5) {
+            alert("File size exceeds 5MB. Please upload a smaller file.");
+            $(this).val('');
+            src = $(`#${inputid}-preview`).attr("data-default-src");
+          } else {
+            src = URL.createObjectURL(file);
+          }
+        }
+      }
+    $(`#${inputid}-preview`).attr("src", src);
+    }
+});
+
+mobileOnLoad();
+
 });

@@ -96,7 +96,7 @@ $(document).ready(function () {
       $("#" + formid + " .data-to-send").each(function () {
         let val = "";
         let name = $(this).attr("name");
-        val = $(this).val();
+        val = $(this)[0].files ? $(this)[0].files[0] : $(this).val();
         data.append(name, val);
       });
       let isNotAdd = $(`#${formid}`).hasAttr("data-id");
@@ -124,7 +124,11 @@ $(document).ready(function () {
               showMessageModal("success");
               var dataTable = $(`#${object}-table`).DataTable();
               dataTable.ajax.reload();
-              if (!isNotAdd) $(`#${formid}`)[0].reset();
+              if (!isNotAdd)
+              { 
+                  $(`#${formid}`)[0].reset();
+                  $(`#${formid} .file-preview`).attr("src", $(`#${formid} .file-preview`).attr("data-default-src"));
+              }
             }
             else if (status === 10) {
               showMessageModal("success");

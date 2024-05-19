@@ -1,15 +1,16 @@
 .sidebar{
-    width: 0;
+    width: 220px;
+    margin-left: -220px;
     height: 100vh;
     background-color: var(--secondaryColor);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     transition: all 0.5s;
-    position: fixed;
+    z-index: 9999;
 }
 
 .sidebar.show{
-    width: 220px;
+    margin-left: 0;
     padding: 20px;
 }
 
@@ -52,5 +53,14 @@
 }
 .sidebar-item.clicked{
     background-color: #013773;
+}
+
+@media(max-width: 768px)
+{
+
+    .sidebar{
+        position: fixed;
+        margin-left: -220px;
+    }
 }
 

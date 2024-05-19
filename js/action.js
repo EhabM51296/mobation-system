@@ -22,7 +22,23 @@ $(document).ready(function(){
                         const [k, v] = e;
                         Object.entries(v).forEach((entry) => {
                             const [key, value] = entry;
-                            $(`#edit-${object}-form input[name=${key}]`).val(value);
+                            let input = $(`#edit-${object}-form input[name=${key}]`);
+                            let inputType = input.attr("type");
+                            if(inputType === "file")
+                              {
+                                let inputid = input.attr("id");
+                                let src = `./assets/images/noProfile.jpg`;
+                                $(`#${inputid}-preview`).attr("data-default-src", `./assets/images/noProfile.jpg`);
+                                if(value && value.trim().length > 0)
+                                  {
+                                    src = `./assets/images/${value}`
+                                    $(`#${inputid}-preview`).attr("data-default-src", src);
+                                  }                                  
+                                
+                                $(`#${inputid}-preview`).attr("src", src);
+                              }
+                            else
+                              $(`#edit-${object}-form input[name=${key}]`).val(value);
                             // for dropdown label
                             if(key.includes("_dropdown")){
                               let labelName = key.split("_dropdown")[0];

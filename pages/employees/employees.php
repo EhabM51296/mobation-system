@@ -13,7 +13,11 @@
                     <thead>
                         <tr>
                             <th data-name="actions">Actions</th>
+                            <th data-name="picture" data-image>Picture</th>
                             <th data-name="name" data-orderable data-filter>Name</th>
+                            <th data-name="dob" data-orderable data-filter>Date of birth</th>
+                            <th data-name="location" data-orderable data-filter>Location</th>
+                            <th data-name="salary" data-orderable data-filter>Salary</th>
                             <th data-name="password">Password</th>
                             <th data-name="token_key">Access Token</th>
                             <th data-name="createdat">Creation Date</th>

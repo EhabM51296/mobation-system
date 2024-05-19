@@ -18,13 +18,15 @@ $(document).ready(function () {
         columns.push({
           data: columnData,
           render: function (data, type, row) {
+            if(data)
             return (
-              '<img src="' +
+              '<img src="./assets/images/' +
               data +
               '" alt="' +
               row.name +
-              '" width="50" height="50">'
+              '" width="50" height="50" class="image-cell">'
             );
+            else return "";
           },
         });
       } else {

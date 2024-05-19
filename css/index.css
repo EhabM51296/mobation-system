@@ -34,6 +34,7 @@
 }
 html, body{
     width: 100%;
+    min-width: 300px;
     overflow-x: hidden;
     font-family: "light";
     margin: auto;

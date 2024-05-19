@@ -9,6 +9,14 @@ if(isset($_POST['action-delete']) && isset($_POST['id']))
     }
     $id = $_POST['id'];
     $connection = connectDB();
+    $stmt = $connection->prepare("select picture from employees where id = ? and accid = ?");
+    $stmt->bind_param("ii", $id, $_SESSION['user']['accid']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataToDelete = $result->fetch_all(MYSQLI_ASSOC);
+    $fileSrc = "../../../assets/images/" . $dataToDelete[0]['picture'];
+    if ($dataToDelete[0]['picture'] && file_exists($fileSrc)) 
+        unlink($fileSrc); 
     $stmt = $connection->prepare("delete from employees where id = ? and accid = ?");
     $stmt->bind_param("ii", $id, $_SESSION['user']['accid']);
     if ($stmt->execute()) {
